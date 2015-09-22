@@ -1,17 +1,16 @@
 sickrage Cookbook
 =================
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+This cookbook will be designed to install and allow you to configure sickrage a well maintained fork of sickbeard.
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+Supported Operating systems:
+-RHEL 6.*
+-CentOS 6.*
 
-e.g.
-#### packages
-- `toaster` - sickrage needs toaster to brown your bagel.
+Required cookbooks:
+-Git
+
 
 Attributes
 ----------

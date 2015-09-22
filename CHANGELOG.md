@@ -5,7 +5,9 @@ This file is used to list changes made in each version of the sickrage cookbook.
 
 0.1.0
 -----
-- [your_name] - Initial release of sickrage
+- Jeremy - Initial release of sickrage
+- Basic install and service install
+- No configuration for sickrage included
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
