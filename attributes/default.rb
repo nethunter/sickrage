@@ -11,12 +11,13 @@
 default['sickrage']['user'] = 'sickbeard'
 default['sickrage']['group'] = 'sickbeard'
 
-default['sickrage']['listen_port'] = '8345'
+default['sickrage']['listen_port'] = '8081'
 
 default['sickrage']['install_dir'] = '/opt/sickbeard'
 default['sickrage']['data_dir'] = '/var/sickrage'
 default['sickrage']['config_dir'] = '/etc/sickrage'
-default['sickrage']['pid_dir'] = 'var/run/sickbeard'
+default['sickrage']['pid_dir'] = '/var/run/sickbeard'
+default['sickrage']['lockfile_dir'] = '/var/run/sickbeard/subsys'
 default['sickrage']['binary'] = '/opt/sickbeard/SickBeard.py'
 
 # Only a fresh install will take place if this is false
@@ -31,4 +32,6 @@ default['sickrage']['install_style'] = 'git'
 
 # Git Options
 default['sickrage']['git_url'] = 'https://github.com/SiCKRAGETV/SickRage.git'
+
+# Get from running this command: git ls-remote https://github.com/SiCKRAGETV/SickRage.git master
 default['sickrage']['git_ref'] = '657ffd7c4e61d32cecde009541cd25476579b254'

@@ -20,7 +20,8 @@ app_dirs = [
   node['sickrage']['log_dir'],
   node['sickrage']['data_dir'],
   node['sickrage']['config_dir'],
-  node['sickrage']['pid_dir']
+  node['sickrage']['pid_dir'],
+  node['sickrage']['lockfile_dir']
 ]
 
 app_dirs.each do |dir|
@@ -45,7 +46,7 @@ end
 
 template 'sickrage' do
 	path '/etc/init.d/sickrage'
-	source 'sickrage_service.erb'
+	source 'sickrage_service_configured.erb'
 	mode 0775
 	owner 'root'
 	group 'root'
@@ -54,7 +55,7 @@ end
 if node['sickrage']['config_enabled'] == 'true' then
 
   template 'config' do
-    path '/opt/sickbeard/config.ini'
+    path '/etc/sickrage/config.ini'
     source 'config.ini.erb'
     mode 0644
     owner node['sickrage']['user']
@@ -62,8 +63,12 @@ if node['sickrage']['config_enabled'] == 'true' then
   end
 end
 
+iptables_rule 'sickrage_iptables' do
+  action :enable
+end
+
 service 'sickrage' do
-  action [:enable, :start]
+  action [:enable, :restart]
 end
 
 

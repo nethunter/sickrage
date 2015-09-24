@@ -10,39 +10,26 @@
 . /etc/init.d/functions
 
 RETVAL=0
-prog="sickrage"
+prog="sickbeard"
+
+
 
 start() {
-        echo -n "Starting $prog: "
-        `<%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> pidfile=/var/run/sickbeard/sickbeard.pid --datadir=<%= node['sickrage']['data_dir'] %>`
+        # Start daemon.
+        echo -n $"Starting $prog: "
+        daemon --user=<%= node['sickrage']['user'] %> --pidfile=<%= node['sickrage']['pid_dir'] %>/sickbeard.pid <%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> --pidfile=<%= node['sickrage']['pid_dir'] %>/sickbeard.pid --datadir=<%= node['sickrage']['data_dir'] %> --config=<%= node['sickrage']['config_dir'] %>/config.ini
         RETVAL=$?
-        [ $RETVAL -eq 0 ] && touch $LOCKFILE
         echo
+        [ $RETVAL -eq 0 ] && touch <%= node['sickrage']['lockfile_dir'] %>/$prog
         return $RETVAL
 }
 
 stop() {
-        echo -n "Shutting down $prog: "
-        pid=`ps -ef |grep -i sick |grep -v grep |cut -d ' ' -f6`
-        kill -9 $pid
+        echo -n $"Shutting down $prog: "
+        killproc -p <%= node['sickrage']['pid_dir'] %>/sickbeard.pid python
         RETVAL=$?
-        [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
         echo
-        return $RETVAL
-}
-
-status() {
-        echo -n "Checking $prog status:"
-        echo
-        sickrage=`ps -ef |grep -i sick |grep -v grep |cut -d '/' -f7`
-        SR=`echo $sickrage |cut -d ' ' -f1`
-        if [ "$SR" == "sickbeard" ]
-        then
-          echo "The sickrage service is running"
-        else
-          echo "The sickrage service is not running"
-        fi
-        RETVAL=$?
+        [ $RETVAL -eq 0 ] && rm -f <%= node['sickrage']['lockfile_dir'] %>/$prog
         return $RETVAL
 }
 
@@ -54,7 +41,7 @@ case "$1" in
         stop
         ;;
     status)
-        status
+        status -p <%= node['sickrage']['pid_dir'] %>/sickbeard.pid $prog
         ;;
     restart)
         stop

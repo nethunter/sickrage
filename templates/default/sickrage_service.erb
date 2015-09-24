@@ -22,6 +22,16 @@ start() {
         return $RETVAL
 }
 
+start() {
+        # Start daemon.
+        echo -n $"Starting $prog: "
+        daemon --user=<%= default['sickrage']['user'] %> --pidfile=<%= default['sickrage']['pid_dir'] %>/sickbeard.pid <%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> --pidfile=<%= node['sickrage']['pid_dir'] %>/sickbeard.pid
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && touch $lockfile
+        return $RETVAL
+}
+
 stop() {
         pid=`ps -ef |grep -i sick |grep -v grep |cut -d ' ' -f6`
         echo -n "Shutting down $prog: "
