@@ -11,11 +11,16 @@
 default['sickrage']['user'] = 'sickbeard'
 default['sickrage']['group'] = 'sickbeard'
 
-default['sickrage']['listen_port'] = '8081'
+default['sickrage']['listen_port'] = '8345'
 
 default['sickrage']['install_dir'] = '/opt/sickbeard'
+default['sickrage']['data_dir'] = '/var/sickrage'
+default['sickrage']['config_dir'] = '/etc/sickrage'
 default['sickrage']['pid_dir'] = 'var/run/sickbeard'
 default['sickrage']['binary'] = '/opt/sickbeard/SickBeard.py'
+
+# Only a fresh install will take place if this is false
+default['sickrage']['config_enabled'] = 'true'
 
 default['sickrage']['log_dir'] = '/var/log/sickbeard'
 

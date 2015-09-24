@@ -18,6 +18,8 @@ end
 app_dirs = [
   node['sickrage']['install_dir'],
   node['sickrage']['log_dir'],
+  node['sickrage']['data_dir'],
+  node['sickrage']['config_dir'],
   node['sickrage']['pid_dir']
 ]
 
@@ -41,7 +43,6 @@ execute 'git clone' do
  end
 end
 
-
 template 'sickrage' do
 	path '/etc/init.d/sickrage'
 	source 'sickrage_service.erb'
@@ -50,7 +51,19 @@ template 'sickrage' do
 	group 'root'
 end
 
+if node['sickrage']['config_enabled'] == 'true' then
+
+  template 'config' do
+    path '/opt/sickbeard/config.ini'
+    source 'config.ini.erb'
+    mode 0644
+    owner node['sickrage']['user']
+    group node['sickrage']['group']
+  end
+end
+
 service 'sickrage' do
   action [:enable, :start]
 end
+
 

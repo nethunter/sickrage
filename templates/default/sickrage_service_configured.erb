@@ -11,11 +11,10 @@
 
 RETVAL=0
 prog="sickrage"
-LOCKFILE=/var/lock/subsys/$prog
 
 start() {
         echo -n "Starting $prog: "
-        `<%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> pidfile=/var/run/sickbeard/sickbeard.pid`
+        `<%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> pidfile=/var/run/sickbeard/sickbeard.pid --datadir=<%= node['sickrage']['data_dir'] %>`
         RETVAL=$?
         [ $RETVAL -eq 0 ] && touch $LOCKFILE
         echo
@@ -23,8 +22,8 @@ start() {
 }
 
 stop() {
-        pid=`ps -ef |grep -i sick |grep -v grep |cut -d ' ' -f6`
         echo -n "Shutting down $prog: "
+        pid=`ps -ef |grep -i sick |grep -v grep |cut -d ' ' -f6`
         kill -9 $pid
         RETVAL=$?
         [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
@@ -47,19 +46,6 @@ status() {
         return $RETVAL
 }
 
-restart() {
-        echo -n "Shutting down $prog: "
-        pid=`ps -ef |grep -i sick |grep -v grep |cut -d ' ' -f6`
-        kill -9 $pid
-
-        echo -n "Starting $prog: "
-        `<%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> --pidfile=/var/run/sickbeard/sickbeard.pid`
-        RETVAL=$?
-        [ $RETVAL -eq 0 ] && touch $LOCKFILE
-        echo
-        return $RETVAL
-}
-
 case "$1" in
     start)
         start
@@ -72,6 +58,7 @@ case "$1" in
         ;;
     restart)
         stop
+        sleep 3
         start
         ;;
     *)
