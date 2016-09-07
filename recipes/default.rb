@@ -6,87 +6,23 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe 'git'
 
-directory '/mnt/media' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  action :create
+# Attibutes
+error = ''
+if node['platform_version'].to_f >= 7.0
+  node.default['deluge']['release'] = 7
+elsif node['platform_version'].to_f >= 6.0
+  node.default['deluge']['release'] = 6
+else
+  error = 'Please use a supported OS and version'
 end
+raise error unless error.empty?
 
-yum_package 'nfs-utils' do
-  action :install
+# Recipes
+if node['deluge']['release'] == 7
+  include_recipe 'sickrage::_install_python'
+  include_recipe 'sickrage::install_sickrage'
+elsif node['deluge']['release'] == 6
+  include_recipe 'sickrage::_install_python'
+  include_recipe 'sickrage::install_sickrage'
 end
-
-mount '/mnt/media' do
-  device '192.168.1.225:/home/media'
-  fstype 'nfs'
-  options 'rw'
-  action [:mount, :enable]
-end
-
-user node['sickrage']['user'] do
-  shell '/bin/bash'
-  comment 'SickRage User'
-  home node['sickrage']['install_dir']
-  system true
-end
-
-app_dirs = [
-  node['sickrage']['install_dir'],
-  node['sickrage']['log_dir'],
-  node['sickrage']['data_dir'],
-  node['sickrage']['config_dir'],
-  node['sickrage']['pid_dir'],
-  node['sickrage']['lockfile_dir']
-]
-
-app_dirs.each do |dir|
-  directory dir do
-    mode 0755
-    owner node['sickrage']['user']
-    group node['sickrage']['group']
-    recursive true
-  end
-end
-
-package ['python-mako.noarch', 'pyOpenSSL.x86_64']  do
-  action :install
-end
-
-unless Dir.exist? "#{node['sickrage']['install_dir']}"
-execute 'git clone' do
-	command "git clone #{node['sickrage']['git_url']}  #{node['sickrage']['install_dir']}"
-	#command "chown #{node['sickrage']['user']}:#{node['sickrage']['group']} #{node['sickrage']['install_dir']}"
- end
-end
-
-template 'sickrage' do
-	path '/etc/init.d/sickrage'
-	source 'sickrage_service_configured.erb'
-	mode 0775
-	owner 'root'
-	group 'root'
-end
-
-if node['sickrage']['config_enabled'] == 'true' then
-
-  template 'config' do
-    path '/etc/sickrage/config.ini'
-    source 'config.ini.erb'
-    mode 0644
-    owner node['sickrage']['user']
-    group node['sickrage']['group']
-  end
-end
-
-execute 'install dev_tools' do
-  command "chown -R sickbeard:sickbeard /opt/sickbeard"
-end
-
-service 'sickrage' do
-  action [:enable, :restart]
-end
-
-
