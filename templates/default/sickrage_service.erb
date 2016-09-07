@@ -25,7 +25,7 @@ start() {
 start() {
         # Start daemon.
         echo -n $"Starting $prog: "
-        daemon --user=<%= default['sickrage']['user'] %> --pidfile=<%= default['sickrage']['pid_dir'] %>/sickbeard.pid <%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> --pidfile=<%= node['sickrage']['pid_dir'] %>/sickbeard.pid
+        daemon --user=<%= default['sickrage']['user'] %> --pidfile=<%= default['sickrage']['directory']['pid_dir'] %>/sickbeard.pid <%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> --pidfile=<%= node['sickrage']['directory']['pid_dir'] %>/sickbeard.pid
         RETVAL=$?
         echo
         [ $RETVAL -eq 0 ] && touch $lockfile
