@@ -1,19 +1,19 @@
 sickrage Cookbook
 =================
 [![Build Status](https://travis-ci.org/som3guy/sickrage.svg?branch=master)](https://travis-ci.org/som3guy/sickrage)
+[![Code Climate](https://codeclimate.com/github/som3guy/sickrage/badges/gpa.svg)](https://codeclimate.com/github/som3guy/sickrage)
 
 This cookbook will be designed to install and allow you to configure sickrage a well maintained fork of sickbeard.
 
 Requirements
 ------------
-Supported Operating systems:
--RHEL 6.*
--CentOS 6.*
+### Platforms Supported
+- CentOS, RHEL, Fedora
 
-Required cookbooks:
--Git
--Build Essentials
--yum-epel
+### Required cookbooks:
+- Git
+- Build Essentials
+- yum-epel
 
 
 Attributes
