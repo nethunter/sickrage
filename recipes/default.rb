@@ -8,6 +8,24 @@
 #
 include_recipe 'git'
 
+directory '/mnt/media' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+yum_package 'nfs-utils' do
+  action :install
+end
+
+mount '/mnt/media' do
+  device '192.168.1.225:/home/media'
+  fstype 'nfs'
+  options 'rw'
+  action [:mount, :enable]
+end
+
 user node['sickrage']['user'] do
   shell '/bin/bash'
   comment 'SickRage User'
@@ -63,8 +81,8 @@ if node['sickrage']['config_enabled'] == 'true' then
   end
 end
 
-iptables_rule 'sickrage_iptables' do
-  action :enable
+execute 'install dev_tools' do
+  command "chown -R sickbeard:sickbeard /opt/sickbeard"
 end
 
 service 'sickrage' do

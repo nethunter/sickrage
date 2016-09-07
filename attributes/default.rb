@@ -31,7 +31,7 @@ default['sickrage']['python']['binary'] = '/usr/local/bin/python2.7'
 default['sickrage']['install_style'] = 'git'
 
 # Git Options
-default['sickrage']['git_url'] = 'https://github.com/SiCKRAGETV/SickRage.git'
+default['sickrage']['git_url'] = 'https://github.com/SickRage/SickRage.git'
 
 # Get from running this command: git ls-remote https://github.com/SiCKRAGETV/SickRage.git master
 default['sickrage']['git_ref'] = '657ffd7c4e61d32cecde009541cd25476579b254'
