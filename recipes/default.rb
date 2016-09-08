@@ -20,7 +20,6 @@ raise error unless error.empty?
 
 # Recipes
 if node['deluge']['release'] == 7
-  include_recipe 'sickrage::_install_python'
   include_recipe 'sickrage::install_sickrage'
 elsif node['deluge']['release'] == 6
   include_recipe 'sickrage::_install_python'

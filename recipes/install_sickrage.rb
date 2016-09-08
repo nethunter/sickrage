@@ -6,7 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-
 include_recipe 'yum-epel'
 include_recipe 'git'
 
@@ -42,6 +41,16 @@ template 'sickrage' do
   mode '775'
   owner 'root'
   group 'root'
+  only_if { node['deluge']['release'] == 6 }
+end
+
+template 'sickrage' do
+  path '/etc/systemd/system/sickrage.service'
+  source 'sickrage.service.erb'
+  mode '775'
+  owner 'root'
+  group 'root'
+  only_if { node['deluge']['release'] == 7 }
 end
 
 template 'config' do
@@ -53,7 +62,7 @@ template 'config' do
   only_if { node['sickrage']['config_enabled'] == true }
 end
 
-execute 'install dev_tools' do
+execute 'update permissions' do
   command "chown -R sickbeard:sickbeard #{node['sickrage']['directory']['install_dir']}"
 end
 

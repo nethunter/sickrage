@@ -4,7 +4,7 @@ maintainer_email 'jmiller3346@gmail.com'
 license          'All rights reserved'
 description      'Installs/Configures sickrage'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.0'
+version          '0.2.0'
 issues_url 'https://github.com/som3guy/sickrage/issues' if respond_to?(:issues_url)
 source_url 'https://github.com/som3guy/sickrage.git' if respond_to?(:source_url)
 
