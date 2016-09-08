@@ -15,7 +15,7 @@ LOCKFILE=/var/lock/subsys/$prog
 
 start() {
         echo -n "Starting $prog: "
-        `<%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> pidfile=/var/run/sickbeard/sickbeard.pid`
+        `<%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> <%= node['sickrage']['directory']['pid_dir'] %>/sickbeard.pid`
         RETVAL=$?
         [ $RETVAL -eq 0 ] && touch $LOCKFILE
         echo
