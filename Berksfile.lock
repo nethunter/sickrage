@@ -22,7 +22,7 @@ GRAPH
     seven_zip (>= 0.0.0)
   seven_zip (2.0.2)
     windows (>= 1.2.2)
-  sickrage (0.1.0)
+  sickrage (0.2.0)
     build-essential (~> 6.0.4)
     git (~> 5.0.0)
     yum-epel (~> 1.0.0)

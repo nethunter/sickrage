@@ -31,8 +31,7 @@ end
 
 git node['sickrage']['directory']['install_dir'] do
   repository node['sickrage']['git_url']
-  revision node['sickrage']['git_revision']
-  action :sync
+  action :checkout
 end
 
 template 'sickrage' do
@@ -41,7 +40,7 @@ template 'sickrage' do
   mode '775'
   owner 'root'
   group 'root'
-  only_if { node['deluge']['release'] == 6 }
+  only_if { node['sickrage']['release'] == 6 }
 end
 
 template 'sickrage' do
@@ -50,7 +49,7 @@ template 'sickrage' do
   mode '775'
   owner 'root'
   group 'root'
-  only_if { node['deluge']['release'] == 7 }
+  only_if { node['sickrage']['release'] == 7 }
 end
 
 template 'config' do
