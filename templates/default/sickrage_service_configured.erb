@@ -20,7 +20,7 @@ start() {
         daemon --user=<%= node['sickrage']['user'] %> --pidfile=<%= node['sickrage']['directory']['pid_dir'] %>/sickbeard.pid <%= node['sickrage']['python']['binary'] %> <%= node['sickrage']['binary'] %> --daemon -p <%= node['sickrage']['listen_port'] %> --pidfile=<%= node['sickrage']['directory']['pid_dir'] %>/sickbeard.pid --datadir=<%= node['sickrage']['directory']['data_dir'] %> --config=<%= node['sickrage']['directory']['config_dir'] %>/config.ini
         RETVAL=$?
         echo
-        [ $RETVAL -eq 0 ] && touch <%= node['sickrage']['lockfile_dir'] %>/$prog
+        [ $RETVAL -eq 0 ] && touch <%= node['sickrage']['directory']['lockfile_dir'] %>/$prog
         return $RETVAL
 }
 
