@@ -31,7 +31,8 @@ end
 
 git node['sickrage']['directory']['install_dir'] do
   repository node['sickrage']['git_url']
-  action :checkout
+  checkout_branch 'master'
+  action :sync
 end
 
 template 'sickrage' do
