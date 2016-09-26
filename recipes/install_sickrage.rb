@@ -31,8 +31,12 @@ end
 
 git node['sickrage']['directory']['install_dir'] do
   repository node['sickrage']['git_url']
-  checkout_branch 'master'
   action :sync
+end
+
+execute 'checkout master' do
+  cwd '/opt/sickbeard'
+  command 'git checkout master'
 end
 
 template 'sickrage' do
