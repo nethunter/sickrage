@@ -19,7 +19,7 @@ end
 raise error unless error.empty?
 
 # Recipes
-if node['sickrage']['release'] == 7
+if %w{debian ubuntu}.include?(node['platform']) || node['sickrage']['release'] == 7
   include_recipe 'sickrage::install_sickrage'
 elsif node['sickrage']['release'] == 6
   include_recipe 'sickrage::_install_python'

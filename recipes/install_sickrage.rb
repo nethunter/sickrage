@@ -6,12 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe 'yum-epel'
 include_recipe 'git'
-
-yum_package 'nfs-utils' do
-  action :install
-end
 
 user node['sickrage']['user'] do
   shell '/bin/bash'

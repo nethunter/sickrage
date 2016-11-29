@@ -15,15 +15,19 @@ package_list.each do |pkg|
   end
 end
 
-bash 'install python' do
-  user 'root'
-  code <<-EOH
-  cd /opt
-  wget --no-check-certificate https://www.python.org/ftp/python/2.7.6/Python-2.7.6.tar.xz
-  tar xf /opt/Python-2.7.6.tar.xz
-  cd /opt/Python-2.7.6
-  ./configure --prefix=/usr/local
-  make && make altinstall
-  EOH
-  not_if { File.exist?('/usr/local/bin/python2.7') }
+if %w{debian ubuntu}.include?(node['platform'])
+  package 'python'
+else
+  bash 'install python' do
+    user 'root'
+    code <<-EOH
+    cd /opt
+    wget --no-check-certificate https://www.python.org/ftp/python/2.7.6/Python-2.7.6.tar.xz
+    tar xf /opt/Python-2.7.6.tar.xz
+    cd /opt/Python-2.7.6
+    ./configure --prefix=/usr/local
+    make && make altinstall
+    EOH
+    not_if { File.exist?('/usr/local/bin/python2.7') }
+  end
 end
